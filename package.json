@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "npm-run-all --parallel open:src lint:watch",
+    "open:src": "babel-node ./buildScripts/srcServer.js",
+    "lint": "./node_modules/.bin/esw webpack.config.* buildScripts src",
+    "lint:watch": "npm run lint -- --watch"
   },
   "dependencies": {
     "babel-polyfill": "6.8.0",
