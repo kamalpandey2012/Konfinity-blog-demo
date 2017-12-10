@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "prestart": "babel-node ./buildScripts/startMessage.js",
     "start": "npm-run-all --parallel open:src lint:watch",
     "open:src": "babel-node ./buildScripts/srcServer.js",
     "lint": "./node_modules/.bin/esw webpack.config.* buildScripts src",
