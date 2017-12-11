@@ -1,6 +1,10 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as postActions from '../../actions/postActions';
 
-export default class PostsPage extends React.Component {
+
+class PostsPage extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
@@ -17,7 +21,10 @@ export default class PostsPage extends React.Component {
     this.setState({ post: post });
   }
   onSaveClicked() {
-    alert(`The title changed to: ${this.state.post.title}`);
+    this.props.actions.createPost(this.state.post);
+  }
+  postRow(post, index) {
+    return <div key={index}>{post.title}</div>;
   }
   render() {
     return (
@@ -29,7 +36,27 @@ export default class PostsPage extends React.Component {
         <input type="submit"
           value="Save"
           onClick={this.onSaveClicked} />
+        {this.props.posts.map(this.postRow)}
       </div>
     );
   }
 }
+
+PostsPage.propTypes = {
+  posts: PropTypes.array.isRequired,
+  actions: PropTypes.object.isRequired
+};
+
+
+function mapStateToProps(state, ownProps) {
+  return {
+    posts: state.posts
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(postActions, dispatch)
+  };
+}
+export default connect(mapStateToProps, mapDispatchToProps)(PostsPage);
